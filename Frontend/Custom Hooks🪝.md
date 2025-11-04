@@ -1,0 +1,5 @@
+# Custom Hooks in React
+
+'`use`' has to be used for being getting detected by `eslint-plugin-react-hooks` that recognizes all the hooks or any method or function starts with use prefix to check and apply hooks rule sets like hooks can't be called from if block, or from a for block, or in event handlers, or even from nested function, they should always being called on top either inside the React component or a custom hook, so that any other or our future self shouldn't call it from any of the mentioned places, if used then react would warn and give error for not using them properly. 
+
+If the naming convention not used, then it might be misunderstood by both devs and React itself, devs can by mistake use those functions inside any of the places or environments where hooks aren't designed to be called, if done so then this can lead to silent bugs or errors that can be hard to detect, and the cause of bug as well.
