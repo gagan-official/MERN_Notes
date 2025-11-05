@@ -184,6 +184,8 @@ async function reqQuery() {
 
 ## Queries 🔍❓
 
+### Query Methods:
+
 1. `findById(<ObjectId(...)>)`:
 
 ```js
@@ -196,3 +198,41 @@ const user = await User.findById("6909b3fdcc2bec725277cc19");
 5. ❌`updateOne(<filter>)`: same as mongosh, but don't use this as it doesn't validates from Schema.
 6. `deleteOne(<filter>)`: same as mongosh, deletes one first occurance doc, returns `{ deletedCount: 1 }` if found.
 7. `deleteMany(<filter>)`: same as mongosh, deletes all docs with matched filter.
+
+### Actual Queries:
+
+Can be used with all combinations of queries to find anything from DB:
+
+#### 1. `User.where(<field_name>)`
+
+1. **.equals()**: `User.where(<field_name>).equals(<value>)`: **Usage Example**:
+
+```js
+const users = await User.where("name").equals("Gagandeep");
+console.log(users); //? Output: [{ name: "Gagandeep", ... }, ...]  // will give all docs matching the filter.
+```
+
+2. **.gt()**: `User.where(<field>).gt(<value>)`: **Usage Example**:
+
+```js
+const users = await User.where("age").gt("12");
+console.log(users); //? Output: [{ name: "Gagandeep", ... }, ...]  // will give all docs matching the filter.
+```
+
+3. **.in()**: `User.where(<field>).in([<value1>, <value2>, ...] || string_value)`: **Usage Example**:
+
+```js
+const users = await User.where("hobbies").in(["Singing", "Dancing"]);
+```
+
+#### 2. `User.find().limit(<number>)`
+
+```js
+const users = await User.find().limit(1);
+```
+
+#### 3. `User.find().select(<field_name>)`
+
+```js
+const users = await User.find().select("name");
+```

@@ -55,6 +55,35 @@ db.students.updateMany(
   { $set: { fullTime: false } }
 );
 db.students.updateMany({ gpa: 3.4 }, { $unset: { fullTime: "" } }); // will remove fullTime feild from all documents consising of 'gpa' field.
+db.users.updateMany(
+  { name: "Mukesh" },
+  {
+    $push: {
+      hobbies: "Hiking",
+      fav_sports: { $each: ["Football", "Basketball", "Hockey"] },
+    },
+    $set: { "address.city": "Mumbai" },
+  }
+); // $push for adding only one element in the array with duplicacy allowed; and $each operator for adding multiple duplicate elements in an array.
+db.users.updateMany(
+  { name: "Mukesh" },
+  {
+    $addToSet: {
+      hobbies: "Hiking",
+      fav_sports: { $each: ["Football", "Basketball", "Hockey"] },
+    },
+  }
+); // $addToSet for adding only one element in the array with NON DUPLICACY check; and $each operator for adding multiple distinct elements in an array.
+
+// Aggregation Pipeline for removing duplicate values from array using $setUnion:
+db.users.updateOne({ name: "Mukesh" }, [
+  {
+    $set: {
+      fav_sports: { $setUnion: ["$fav_sports", []] },
+      hobbies: { $setUnion: ["$hobbies", []] },
+    },
+  },
+]);
 ```
 
 4. **Delete One** and **Delete Many**: `db.<collection_name>.(deleteOne || deleteMany)(<filter>)`: for deleting one or all selected documents:
