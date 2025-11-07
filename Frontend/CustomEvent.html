@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Custom Events</title>
+  </head>
+  <body>
+    <button>click</button>
+    <script>
+      const button = document.querySelector("button");
+
+      // Making of new custom event instance:
+      const myCustomEvent = new CustomEvent("custom-event", {
+        detail: { messageL: "nothing buddy", dataDaalo: "Daaldiya" },
+        bubbles: true,
+        cancelable: true,
+      });
+
+      // Attaching event listener to any element:
+      button.addEventListener("custom-event", (event) => {
+        console.log(event, event.detail.dataDaalo);
+      });
+
+      button.addEventListener("click", (e) => {
+        // Emitting/Dispatching/Firing event at anywhere, i've emitted it here:
+        e.target.dispatchEvent(myCustomEvent);
+        console.log("event attached to the button.");
+      });
+    </script>
+  </body>
+</html>

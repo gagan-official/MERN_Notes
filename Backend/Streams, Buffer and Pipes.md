@@ -4,12 +4,16 @@ Breaking big file into smaller **chunks** instead of full file and then transfer
 
 ### 4 Types of Stream:
 
-1. Readable
-2. Writable
-3. Duplex
-4. Transform
+1. Readable (Reading a File)
+2. Writable (Writing a File)
+3. Duplex (both Readable and Writable) (Sockets)
+4. Transform (Eg. File Compression: Write Compressed Data and Read De-Compressed Data)
 
 [View Code 🔗](./code/streams.js)
+
+# Pipes:
+
+To connect (chain) both Readable and Writable Streams with each others. (Just like promise chaining).
 
 # Buffers:
 

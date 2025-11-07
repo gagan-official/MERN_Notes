@@ -7,7 +7,11 @@ const readableStream = createReadStream("./hello.txt", {
 
 const writableStream = createWriteStream("./s.txt");
 
-readableStream.on("data", (chunk) => {
-  console.log(chunk);
-  writableStream.write(chunk);
-});
+// readableStream.on("data", (chunk) => {
+//   console.log(chunk);
+//   writableStream.write(chunk);
+// });
+
+// ######################## Or ########################
+
+readableStream.pipe(writableStream);
