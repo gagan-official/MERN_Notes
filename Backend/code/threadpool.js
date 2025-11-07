@@ -39,7 +39,8 @@ readableStream2.on("close", () => {
   process.nextTick(() => console.log("nexttick 0.1"));
 });
 
-fs.readFile(__filename, () => {
+fs.readFile("/home/bonami/Desktop/Noots/Backend/code/s.txt", (_,d) => {
+  console.log(d)
   console.log("Readfile 1");
   process.nextTick(() => console.log("readfile Inner Nexttick 1"));
   process.nextTick(() => console.log("readfile Inner Nexttick 2"));
@@ -48,14 +49,14 @@ fs.readFile(__filename, () => {
   Promise.resolve().then(() => console.log("readfile Inner Promise"));
   setImmediate(() => console.log("readfile Inner Immediate 1"));
 });
-fs.readFile(__filename, () => {
+fs.readFile("/home/bonami/Desktop/Noots/Backend/code/s.txt", () => {
   console.log("Readfile 2");
   process.nextTick(() => console.log("readfile Inner Nexttick 2.1"));
   process.nextTick(() => console.log("readfile Inner Nexttick 2.2"));
   process.nextTick(() => console.log("readfile Inner Nexttick 2.3"));
   process.nextTick(() => console.log("readfile Inner Nexttick 2.4"));
   Promise.resolve().then(() => console.log("readfile Inner Promise"));
-  setImmediate(() => console.log("readfile Inner Immediate 1"));
+  setImmediate(() => console.log("readfile Inner Immediate 2"));
 });
 
 console.log("global stack");
@@ -75,3 +76,5 @@ setTimeout(() => {
   Promise.resolve().then(() => console.log("Promise 5"));
 });
 setTimeout(() => console.log("timer 6"));
+
+for (let i = 0; i < 9999999999; i++) {}
