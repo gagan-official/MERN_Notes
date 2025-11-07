@@ -2,12 +2,14 @@
 
 Breaking big file into smaller **chunks** instead of full file and then transferring it, then `Buffers` are used for storing those particular set of chunks in some intervals.
 
-4 Types of Stream:
+### 4 Types of Stream:
 
 1. Readable
 2. Writable
 3. Duplex
 4. Transform
+
+[View Code 🔗](./code/streams.js)
 
 # Buffers:
 
