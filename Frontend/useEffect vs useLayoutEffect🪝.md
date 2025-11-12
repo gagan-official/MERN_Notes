@@ -49,25 +49,25 @@ Your representation captures the core idea of how dependencies trigger the effec
 
 #### What Your Code Gets Right
 
-- **Cleanup Function:** It correctly recognizes the need to call a prevcleanupFn before running the new effect.
+- **Cleanup Function:** It correctly recognizes the need to call a `prevcleanupFn` before running the new effect.
 
-- **Dependency Array Check:** It attempts to check if any state in the dependencyArray has changed (state !== prevDepArr[i]), which is the correct logic for deciding whether to re-run the effect.
+- **Dependency Array Check:** It attempts to check if any state in the dependencyArray has changed `(state !== prevDepArr[i])`, which is the correct logic for deciding whether to re-run the effect.
 
 ---
 
 #### What's Missing or Incorrect
 
-- **State Persistence:** Your function doesn't actually store prevcleanupFn or prevDepArr anywhere that persists across component renders. In React, these values are stored outside the useEffect call within the internal hook structure associated with the specific component instance. Your example uses global-like variables (prevcleanupFn, prevDepArr) which would break if there were multiple calls to useEffect or multiple components.
+- **State Persistence:** Your function doesn't actually store `prevcleanupFn` or `prevDepArr` anywhere that persists across component renders. In React, these values are stored outside the useEffect call within the internal hook structure associated with the specific component instance. Your example uses global-like variables (`prevcleanupFn`, `prevDepArr`) which would break if there were multiple calls to `useEffect` or multiple components.
 
-- **Initial Run:** Your dependency check logic only runs the effect if a dependency has changed. However, useEffect must always run at least once after the initial render, even if the dependency array is empty or the dependencies haven't changed yet (since there's no previous array to compare to).
+- **Initial Run:** Your dependency check logic only runs the effect if a dependency has changed. However, `useEffect` must always run at least once after the initial render, even if the dependency array is empty or the dependencies haven't changed yet (since there's no previous array to compare to).
 
-- **No Dependencies:** Your code doesn't account for the case where the dependencyArray is omitted (which would cause the effect to run after every render) or an empty array (which would run the effect only once after the initial mount).
+- **No Dependencies:** Your code doesn't account for the case where the `dependencyArray` is omitted (which would cause the effect to run after every render) or an empty array (which would run the effect only once after the initial mount).
 
-- **Return Value:** The cleanup function is returned by the callback function, and your code correctly assigns that to prevcleanupFn.
+- **Return Value:** The cleanup function is returned by the callback function, and your code correctly assigns that to `prevcleanupFn`.
 
 ---
 
-### ⚛️ React's useEffect Execution Order
+### ⚛️ React's `useEffect` Execution Order
 
 The process you outlined above the code snippet is also a slight oversimplification of React's lifecycle:
 
@@ -155,7 +155,7 @@ Here's a breakdown of what happens and the browser mechanisms involved:
 
 ### 🛑 How React Pauses Painting for useLayoutEffect
 
-You are essentially correct: React ensures that useLayoutEffect runs after the DOM is updated but before the browser renders those updates to the screen.
+You are essentially correct: React ensures that `useLayoutEffect` runs after the DOM is updated but before the browser renders those updates to the screen.
 
 React achieves this by leveraging the browser's own rendering sequence.
 
