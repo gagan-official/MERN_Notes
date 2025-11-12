@@ -49,21 +49,21 @@ Your representation captures the core idea of how dependencies trigger the effec
 
 #### What Your Code Gets Right
 
-- Cleanup Function: It correctly recognizes the need to call a prevcleanupFn before running the new effect.
+- **Cleanup Function:** It correctly recognizes the need to call a prevcleanupFn before running the new effect.
 
-- Dependency Array Check: It attempts to check if any state in the dependencyArray has changed (state !== prevDepArr[i]), which is the correct logic for deciding whether to re-run the effect.
+- **Dependency Array Check:** It attempts to check if any state in the dependencyArray has changed (state !== prevDepArr[i]), which is the correct logic for deciding whether to re-run the effect.
 
 ---
 
 #### What's Missing or Incorrect
 
-- State Persistence: Your function doesn't actually store prevcleanupFn or prevDepArr anywhere that persists across component renders. In React, these values are stored outside the useEffect call within the internal hook structure associated with the specific component instance. Your example uses global-like variables (prevcleanupFn, prevDepArr) which would break if there were multiple calls to useEffect or multiple components.
+- **State Persistence:** Your function doesn't actually store prevcleanupFn or prevDepArr anywhere that persists across component renders. In React, these values are stored outside the useEffect call within the internal hook structure associated with the specific component instance. Your example uses global-like variables (prevcleanupFn, prevDepArr) which would break if there were multiple calls to useEffect or multiple components.
 
-- Initial Run: Your dependency check logic only runs the effect if a dependency has changed. However, useEffect must always run at least once after the initial render, even if the dependency array is empty or the dependencies haven't changed yet (since there's no previous array to compare to).
+- **Initial Run:** Your dependency check logic only runs the effect if a dependency has changed. However, useEffect must always run at least once after the initial render, even if the dependency array is empty or the dependencies haven't changed yet (since there's no previous array to compare to).
 
-- No Dependencies: Your code doesn't account for the case where the dependencyArray is omitted (which would cause the effect to run after every render) or an empty array (which would run the effect only once after the initial mount).
+- **No Dependencies:** Your code doesn't account for the case where the dependencyArray is omitted (which would cause the effect to run after every render) or an empty array (which would run the effect only once after the initial mount).
 
-- Return Value: The cleanup function is returned by the callback function, and your code correctly assigns that to prevcleanupFn.
+- **Return Value:** The cleanup function is returned by the callback function, and your code correctly assigns that to prevcleanupFn.
 
 ---
 
@@ -103,33 +103,33 @@ Here's the step-by-step process, clarifying the position of the effects:
 
 **Phase 1: Render (Preparation)**
 
-- State/Prop Update: A state or prop change is triggered.
+- **State/Prop Update:** A state or prop change is triggered.
 
-- Virtual DOM (VDOM) Calculations: React runs your component function, calculates the new VDOM tree, and performs diffing against the previous VDOM tree to determine the minimum necessary changes.
+- **Virtual DOM (VDOM) Calculations:** React runs your component function, calculates the new VDOM tree, and performs diffing against the previous VDOM tree to determine the minimum necessary changes.
 
 **Phase 2: Pre-Commit (Snapshot)**
 
-- Snapshot before Mutation: React calculates what the DOM will look like. This is where the useLayoutEffect cleanup is called before the mutation, and where useLayoutEffect's synchronous nature is prepared.
+- **Snapshot before Mutation:** React calculates what the DOM will look like. This is where the useLayoutEffect cleanup is called before the mutation, and where useLayoutEffect's synchronous nature is prepared.
 
 **Phase 3: Commit (Actual DOM Mutation)**
 
-- Actual DOM Mutation: React applies the calculated changes directly to the Actual DOM in the browser. The browser now has the new structure, but it hasn't necessarily drawn it on the screen yet. This is what's meant by "after DOM mutation."
+- **Actual DOM Mutation:** React applies the calculated changes directly to the Actual DOM in the browser. The browser now has the new structure, but it hasn't necessarily drawn it on the screen yet. This is what's meant by "after DOM mutation."
 
 **Phase 4: Synchronous Layout Effects**
 
-- useLayoutEffect Runs: React pauses its own process and tells the browser to run all useLayoutEffect callbacks. This happens after the DOM is updated but before the browser has a chance to calculate the final positions/sizes (Layout) and draw the final pixels (Paint).
+- **useLayoutEffect Runs:** React pauses its own process and tells the browser to run all useLayoutEffect callbacks. This happens after the DOM is updated but before the browser has a chance to calculate the final positions/sizes (Layout) and draw the final pixels (Paint).
 
 > **Goal:** To read the DOM (e.g., getting an element's width) and synchronously make a second change to the DOM (e.g., setting scroll position) before the user sees the first update.
 
 **Phase 5: Browser Layout and Paint**
 
-- Browser Layout & Paint: The browser calculates the geometry of all elements and draws the final pixels on the screen. The user sees the update.
+- **Browser Layout & Paint:** The browser calculates the geometry of all elements and draws the final pixels on the screen. The user sees the update.
 
 **Phase 6: Passive Effects**
 
-- useEffect Cleanup Runs: React runs the cleanup function from the previous useEffect call.
+- **useEffect Cleanup Runs:** React runs the cleanup function from the previous useEffect call.
 
-- useEffect Callback Runs: React runs the new useEffect callback. This happens after the browser has finished painting and the user sees the completed component.
+- **useEffect Callback Runs:** React runs the new useEffect callback. This happens after the browser has finished painting and the user sees the completed component.
 
 > **Goal:** To handle side effects that don't need to block the visual rendering (e.g., data fetching, setting up subscriptions, logging).
 
@@ -228,13 +228,13 @@ The key point is that the browser initiates a rendering update after the Call St
 
 The simplified order is:
 
-- Run Tasks: JavaScript Call Stack executes all tasks.
+- **Run Tasks:** JavaScript Call Stack executes all tasks.
 
-- Microtask Check: Execute all Microtasks (Promises, queueMicrotask).
+- **Microtask Check:** Execute all Microtasks (Promises, queueMicrotask).
 
-- Rendering Check: If DOM changes occurred, the browser performs Style, Layout, and Paint.
+- **Rendering Check:** If DOM changes occurred, the browser performs Style, Layout, and Paint.
 
-- Macrotask Check: Grab the next Macrotask (setTimeout, setInterval, I/O, requestAnimationFrame's callback is added here).
+- **Macrotask Check:** Grab the next Macrotask (setTimeout, setInterval, I/O, requestAnimationFrame's callback is added here).
 
 - Loop back to 1.
 
@@ -273,7 +273,7 @@ React schedules useEffect callbacks using a browser mechanism that is similar to
 
 ### DOMContentLoaded vs. useEffect
 
-useEffect is not tied to the DOMContentLoaded event.
+- useEffect is not tied to the DOMContentLoaded event.
 
 - DOMContentLoaded fires once when the initial HTML document is fully loaded and parsed.
 
@@ -373,7 +373,7 @@ Your model is mostly correct, especially the placement of useLayoutEffect and th
 
 ---
 
-Your final understanding is very accurate: useLayoutEffect is synchronous with DOM mutation, running before Microtasks, and useEffect is scheduled asynchronously to run after the browser has painted.
+> Your final understanding is very accurate: useLayoutEffect is synchronous with DOM mutation, running before Microtasks, and useEffect is scheduled asynchronously to run after the browser has painted.
 
 
 ### Question:
