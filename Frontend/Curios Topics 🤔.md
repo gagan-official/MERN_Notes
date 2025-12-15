@@ -10,3 +10,6 @@ export default async function Posts() {
     return <>{rows.map((item)=>item.name)}</>
 }
 ```
+# 3. Time Slicing and Lane Model
+# 4. Normal Batching (older versions) and Automatic Batching (since React 18)
+In older versions, react Batches updates in only single event handler (eg: inside `onClick`). In v18 and afterwards, it does **Automatic Batching**, means updates are are batched across _promises, timeouts, and native event handlers_ as well.
