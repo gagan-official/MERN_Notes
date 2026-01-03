@@ -8,8 +8,8 @@ But we can make it Partially stateful using Refresh Tokens and storing them in D
 
 ### Authentication vs Authorization
 
-**Authentication**: To authenticate a user is he's the right person or not to access all the resources/pages.
-**Authorization**: To authenticate a user is he's the right person or not to access specific pages; if he's authorized to access those specific resources/pages.
+**Authentication**: To authenticate a user if he's the right person or not to access all the resources/pages.
+**Authorization**: To authenticate a user if he's the right person or not to access specific pages; if he's authorized to access those specific resources/pages.
 
 ### JWT vs Sessions
 
