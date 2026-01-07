@@ -32,4 +32,4 @@ An **Architectural Style**, where an app is broken down into smaller/independent
 
 # Next Topic to cover:
 1. gRPC (Sync comm)
-1. Kafka, RabbitMQ, Amazon SQS (Simple Queue Service). 
+2. (Async Comms): Kafka, RabbitMQ, Amazon SQS (Simple Queue Service).
