@@ -35,5 +35,5 @@ The operation's speed is limited by the speed of Input/Output tasks, not the CPU
 
 ### includes `threadpool`🧵:
 
-- consists of 4 threads by default, can be increased (mostly recommended at top of the server invocation): `process.env.UV_THREADPOOL_SIZE = 5`
+- consists of **4 threads** by default, can be increased (mostly recommended to be declared at top of the server invocation): `process.env.UV_THREADPOOL_SIZE = 5`
 - **Size** must be decided on the basis of CPU cores. (can check from Task Manager window in each OS, how many CPU cores are available in the machine)

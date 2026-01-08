@@ -1,3 +1,8 @@
+### About `pg` package:
+
+- An SQL transport client, means it sends SQL strings and receives tabular results.
+- Which makes it a **DB Driver** and not a proper ORM.
+
 ### `SERIAL` vs `GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY`
 An AUTO_INCREMENT feature in Postgre, `SERIAL` was considered as the only auto increment shorthand feature until v10, then came `GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY`.
 

@@ -1,6 +1,6 @@
 # Mongoose 🐀
 
-An Open-Source ODM using the official "[**MongoDB Node.js Driver**](https://www.mongodb.com/docs/drivers/node/current/get-started/)" under the hood
+An Open-Source ODM using the official "[**MongoDB Node.js Driver**](https://www.mongodb.com/docs/drivers/node/current/get-started/)" under the hood (`const { MongoClient } = require('mongodb')`)
 
 1. Schema
 2. Model
@@ -236,3 +236,23 @@ const users = await User.find().limit(1);
 ```js
 const users = await User.find().select("name");
 ```
+
+---
+
+
+## Extra Topics:
+
+### Checking Max Size of a Document:
+
+If we try to push a new entry in document in any manner like appending comments in post document, then instead of clipping or overwriting the data, it will reject entire operation and throw this error:
+
+```terminal
+BSONObjectTooLarge: BSONObj size (16780234 bytes) is larger than maximum size (16777216 bytes)
+```
+So we can check any single document's size usign manual method:
+
+```js
+User.bsonsize(db.collection.findOne({ _id: "123something..." })); // returns size in bytes
+```
+
+Or use Monitoring tools like **Atlas's alerts** or other specialized tools to track **Document Size** metrics. If it's going beyond 10mb+ then it's the time to refactor.
