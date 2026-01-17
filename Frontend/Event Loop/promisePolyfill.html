@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promise Polyfill</title>
+  </head>
+  <body>
+    <script>
+      // Promise Polyfill
+      class PromPol {
+        PromiseState = "pending";
+        PromiseResult = undefined;
+        PromiseFulfillReactions = [];
+        then = null;
+        catch = null;
+        constructor(cb_or_prevPromise) {
+          console.log(typeof cb_or_prevPromise, this);
+          const resolve = (val) => {
+            this.PromiseState = "fulfilled";
+            this.PromiseResult = val;
+            this.then = (cb) => {
+              cb(this.PromiseResult);
+              return new PromPol(this);
+            };
+          };
+          const reject = (error) => {
+            this.PromiseState = "rejected";
+            this.PromiseResult = error;
+            this.catch = (cb) => {
+              cb(this.PromiseResult);
+              return new PromPol(this);
+            };
+          };
+          if (typeof cb_or_prevPromise === "function")
+            cb_or_prevPromise(resolve, reject);
+          else {
+            if (
+              typeof this.then === "function" ||
+              typeof this.catch === "function"
+            )
+              resolve(this.PromiseResult);
+          }
+          console.log("executed", this);
+          return this;
+        }
+      }
+
+      // Gemini Version:
+      class PromPol2 {
+        constructor(executor) {
+          this.status = "pending";
+          this.value = undefined;
+          this.onSuccessCallbacks = [];
+          this.onFailureCallbacks = [];
+
+          const resolve = (val) => {
+            if (this.status === "pending") {
+              this.status = "fulfilled";
+              this.value = val;
+              this.onSuccessCallbacks.forEach((fn) => fn(val));
+            }
+          };
+
+          const reject = (err) => {
+            if (this.status === "pending") {
+              this.status = "rejected";
+              this.value = err;
+              this.onFailureCallbacks.forEach((fn) => fn(err));
+            }
+          };
+
+          executor(resolve, reject);
+        }
+
+        // Notice: then() takes TWO arguments here
+        then(onFulfilled, onRejected) {
+          // If the promise is already resolved, run the callback immediately
+          if (this.status === "fulfilled") {
+            onFulfilled(this.value);
+          }
+          // If the promise is already rejected AND an error handler was provided
+          else if (this.status === "rejected" && onRejected) {
+            onRejected(this.value);
+          }
+          // If still pending, save BOTH callbacks for later
+          else {
+            this.onSuccessCallbacks.push(onFulfilled);
+            if (onRejected) this.onFailureCallbacks.push(onRejected);
+          }
+
+          return this; // Simplified for chaining
+        }
+      }
+
+      const customPromise = new PromPol((res, rej) => {
+        res(3);
+      }).then((res) => console.log(res));
+    </script>
+  </body>
+</html>
