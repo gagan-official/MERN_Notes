@@ -30,6 +30,10 @@ An **Architectural Style**, where an app is broken down into smaller/independent
 
 **Cons**: Harder to track status of requests, as there's no immediate response. Requires more complex infrastructure for managing queues or event streams.
 
+## gRPC (Remote Procedure Call)
+- Proto-Buf
+- works on http2 underneath, which browser can't make it proper accessible natively (but can be done using libraries in frontend).
+
 # Next Topic to cover:
 1. gRPC (Sync comm)
 2. (Async Comms): Kafka, RabbitMQ, Amazon SQS (Simple Queue Service).

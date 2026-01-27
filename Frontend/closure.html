@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function debounce(fn, delay) {
+        let timer; // This is the "labeled" variable in the closure
+
+        return function () {
+          clearTimeout(timer); // Reaches into the closure to cancel the old timer
+          timer = setTimeout(fn, delay); // Updates the same closure variable
+        };
+      }
+
+      const processSearch = debounce(
+        () => console.log("Searching API..."),
+        500
+      );
+
+      // User types "Hello" fast
+      processSearch(); // Timer starts
+      processSearch(); // Timer cleared, new one starts
+      processSearch();
+    </script>
+    <!-- <script>
+      function createCounter() {
+        let count = 0;
+
+        return function () {
+          count++;
+          return count;
+        };
+      }
+
+      const counter1 = createCounter();
+      const counter2 = createCounter();
+      const counter3 = createCounter();
+      const counter4 = createCounter();
+
+      console.log(counter1());
+      console.log(counter1());
+      console.log(counter1());
+      
+      console.log(counter2());
+      console.log(counter3());
+      console.log(counter4());
+    </script> -->
+  </body>
+</html>
