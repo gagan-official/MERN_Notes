@@ -36,7 +36,7 @@ use school
 1. **Inserting One**: `db.students.insertOne({ name: "gagandeep", age: 25, gpa: 3.2 })`: for insering one document.
 2. **Inserting Many**: `db.students.insertMany([{ name: "chintu", age: 21, gpa: 3.4 },{ name: "Kalu", age: 27, gpa: 5.2 }])`: for insering mnay documents at once.
 
-3. **Update One** and **Update Many**: `db.<collection_name>.(updateOne || updateMany)(<filter>, <update>)`: for updating one and selected document respectedly:
+3. **Update One** and **Update Many**: `db.<collection_name>.(updateOne || updateMany)(<filter>, <update>)`: for updating one and selected document respectively:
 
 ```js
 db.students.updateOne(
